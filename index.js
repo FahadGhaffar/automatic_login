@@ -4,8 +4,8 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 
 puppeteer.use(StealthPlugin());
 
-const googleUsername = "fahad.ghafar.dg@gmail.com";
-const googlePassword = "Jawwd54321@";
+const googleUsername = "";
+const googlePassword = "";
 
 (async () => {
     const browser = await puppeteer.launch({
