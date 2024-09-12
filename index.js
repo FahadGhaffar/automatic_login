@@ -4,9 +4,11 @@ const StealthPlugin = require('puppeteer-extra-plugin-stealth');
 
 puppeteer.use(StealthPlugin());
 
-const googleUsername = "";
-const googlePassword = "";
-
+const googleUsername = "fahad.ghafar.dg@gmail.com";
+const googlePassword = "Jawwad54321@";
+function delay(time) {
+    return new Promise(resolve => setTimeout(resolve, time));
+}
 (async () => {
     const browser = await puppeteer.launch({
         headless: false,
@@ -18,25 +20,34 @@ const googlePassword = "";
         ]
     });
 
-    const loginUrl = "https://accounts.google.com/AccountChooser?service=mail&continue=https://google.com&hl=en";
+    const loginUrl = "https://soundcloud.com/signin";
+    // const loginUrl = "https://accounts.google.com/AccountChooser?service=mail&continue=https://google.com&hl=en";
     const ua = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/116.0.0.0 Mobile Safari/537.36';
     const page = await browser.newPage();
+
 
     await page.setUserAgent(ua);
     await page.setExtraHTTPHeaders({
         'Accept-Language': 'en-US,en;q=0.9',
         'Referer': 'https://accounts.google.com/',
     });
+
     // await page.goto(loginUrl, { waitUntil: 'networkidle2' });
     // await page.type('input[type="email"]', googleUsername);
     // await page.keyboard.press('Enter');
     // // await page.waitForTimeout(2000);
+    await delay(3000);
     // await page.type('input[type="password"]', googlePassword);
     // await page.keyboard.press('Enter');
 
+    // await page.goto(loginUrl);
     await page.goto(loginUrl, { waitUntil: 'networkidle2' });
-    await page.waitForSelector('input[type="email"]');
-    await page.type('input[type="email"]', googleUsername);
+    const allElements = await page.$$('*');
+   console.log(`Total elements on the page: ${allElements}`);
+    await page.waitForSelector('input[name="email"][type="text"]');
+    await delay(10000);
+    await page.type('input[name="email"][type="text"]', googleUsername);
+    await delay(2000);
     await page.keyboard.press('Enter');
 
     await page.waitForSelector('input[type="password"]');
@@ -89,3 +100,37 @@ const googlePassword = "";
 // }
 
 // main();
+
+// const puppeteer = require('puppeteer-extra');
+// const StealthPlugin = require('puppeteer-extra-plugin-stealth');
+
+// puppeteer.use(StealthPlugin());
+
+// (async () => {
+//     const browser = await puppeteer.launch({ headless: false });
+//     const page = await browser.newPage();
+
+//     // Navigate to Gmail login page
+//     await page.goto('https://accounts.google.com/');
+
+//     // Enter email
+//     await page.waitForSelector('input[type="email"]');
+//     await page.type('input[type="email"]', 'fahad.ghafar.dg@gmail.com'); // Replace with your email
+//     await page.click('#identifierNext');
+
+//     // Wait for the password field to appear
+//     await page.waitForSelector('input[type="password"]');
+//     await page.type('input[type="password"]', 'Jawwad54321@'); // Replace with your password
+//     await page.click('#passwordNext');
+
+//     // Wait for navigation to Gmail
+//     await page.waitForNavigation();
+
+//     console.log('Logged in successfully!');
+
+//     // You can now interact with your Gmail inbox
+//     // ...
+
+//     // Close the browser after your tasks
+//     await browser.close();
+// })();
